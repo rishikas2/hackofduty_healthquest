@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prescription Entry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="pstyles.css">
+</head>
+<body>
+    <h1>Prescription Entry</h1>
+    <form id="prescriptionForm" action="save_prescription.php" method="POST">
+        <label for="medicineName">Medicine Name:</label>
+        <input type="text" id="medicineName" name="medicineName" required>
+
+        <label for="time">Time:</label>
+        <input type="time" id="time" name="time" required>
+
+        <label for="frequency">Frequency (times per day):</label>
+        <select id="frequency" name="frequency" required>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+        </select>
+
+        <button type="submit">Add Prescription</button>
+    </form>
+
+    <div class="container">
+        <table class="prescription-list" id="prescriptionList">
+            <thead>
+                <tr>
+                    <th>Medicine</th>
+                    <th>Time</th>
+                    <th>Frequency</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <div class="bonus" id="bonusContainer">❤️ Bonus Hearts: <span id="bonusCount">0</span></div>
+    </div>
+
+    <!-- Notification area -->
+    <div id="notification" class="notification" style="display: none;"></div>
+
+    <script src="pscript.js"></script>
+    <footer>
+        <p style="color: white;">&copy;2024 Health Quest. All rights reserved.</p>
+        <a href="Home.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+    </footer>
+</body>
+</html>
