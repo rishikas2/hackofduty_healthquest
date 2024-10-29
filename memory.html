@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokemon Cards Match</title>
+    <style>
+        body {
+            background: url("./pokemon-bg.jpg");
+            background-size: cover;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        #board {
+            height: 532px;
+            width: 475px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            background-color: whitesmoke;
+            border: 10px solid lightgrey;
+        }
+
+        .card {
+            height: 128px;
+            width: 90px;
+            margin: 2.5px;
+        }
+    </style>
+    <h1>Memory Game</h1>
+    <h3>If you have more than 3 errors than you will lose!</h3>
+    <script>
+        var errors = 0;
+var cardList = [
+    "darkness",
+    "double",
+    "fairy",
+    "fighting",
+    "fire",
+    "grass",
+    "lightning",
+    "metal",
+    "psychic",
+    "water"
+];
+
+var cardSet;
+var board = [];
+var rows = 4;
+var columns = 5;
+
+var card1Selected;
+var card2Selected;
+
+window.onload = function() {
+    shuffleCards();
+    startGame();
+}
+
+function shuffleCards() {
+    cardSet = cardList.concat(cardList); // Two of each card
+    // Shuffle
+    for (let i = 0; i < cardSet.length; i++) {
+        let j = Math.floor(Math.random() * cardSet.length); // Get random index
+        // Swap
+        let temp = cardSet[i];
+        cardSet[i] = cardSet[j];
+        cardSet[j] = temp;
+    }
+}
+
+function startGame() {
+    // Arrange the board 4x5
+    for (let r = 0; r < rows; r++) {
+        let row = [];
+        for (let c = 0; c < columns; c++) {
+            let cardImg = cardSet.pop();
+            row.push(cardImg); // JS
+
+            // Create card element with image path pointing to the image folder
+            let card = document.createElement("img");
+            card.id = r.toString() + "-" + c.toString();
+            card.src = "image/" + cardImg + ".jpg"; // Show the card image initially
+            card.classList.add("card");
+            card.addEventListener("click", selectCard);
+            document.getElementById("board").append(card);
+        }
+        board.push(row);
+    }
+
+    // Show front images for 5 seconds, then hide them
+    setTimeout(hideCards, 5000); // Change 3000 to 5000 for 5 seconds
+}
+
+function hideCards() {
+    for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < columns; c++) {
+            let card = document.getElementById(r.toString() + "-" + c.toString());
+            card.src = "image/back.jpg"; // Show back image
+        }
+    }
+}
+
+function selectCard() {
+    if (this.src.includes("back.jpg")) { // Check if the card is showing the back
+        if (!card1Selected) {
+            card1Selected = this;
+            card1Selected.src = "image/" + board[parseInt(card1Selected.id.split("-")[0])][parseInt(card1Selected.id.split("-")[1])] + ".jpg"; // Show the card image
+        }
+        else if (!card2Selected && this !== card1Selected) {
+            card2Selected = this;
+            card2Selected.src = "image/" + board[parseInt(card2Selected.id.split("-")[0])][parseInt(card2Selected.id.split("-")[1])] + ".jpg"; // Show the card image
+            setTimeout(update, 1000); // Check for match after a delay
+        }
+    }
+}
+
+function update() {
+    // If cards aren't the same, flip both back
+    if (card1Selected.src !== card2Selected.src) {
+        // Cards don't match
+        card1Selected.src = "image/back.jpg"; // Show back image
+        card2Selected.src = "image/back.jpg"; // Show back image
+        errors += 1;
+        document.getElementById("errors").innerText = errors;
+
+        // Check if errors have reached 3
+        if (errors > 3) {
+            alert("Game Over! You have made 3 errors.");
+            resetGame(); // Reset the game
+        }
+    }
+
+    // Reset selected cards
+    card1Selected = null;
+    card2Selected = null;
+}
+
+// Function to reset the game
+function resetGame() {
+    errors = 0;
+    document.getElementById("errors").innerText = errors;
+    document.getElementById("board").innerHTML = ""; // Clear the board
+    shuffleCards();
+    startGame(); // Restart the game
+}
+
+    </script>
+</head>
+<body>
+    <h2>Errors: <span id="errors">0</span></h2>
+    <div id="board"></div>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <title>Health Quest</title>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "VT323", monospace;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url("https://t4.ftcdn.net/jpg/06/06/54/49/360_F_606544986_2zeORxAa7x0pnUdfXNlBZof4QOB7qB43.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #000000;
+}
+
+/* Header Styles */
+header {
+    width: 100%;
+    padding: 20px;
+    background-color: #111;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    font-size: 1.2rem;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    opacity: 0;
+    animation: fadeIn 1.5s forwards;
+}
+
+header nav a {
+    color: #fff;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+header nav a:hover {
+    text-decoration: underline;
+}
+
+header .right-nav a {
+    margin-left: 25px;
+}
+
+/* Main Content */
+main {
+    margin-top: 100px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeInUp 1.5s ease-in-out;
+}
+
+h1 {
+    font-size: 4em;
+    letter-spacing: 2px;
+    margin: 10px 0;
+    animation: fadeInUp 1.8s ease-in-out;
+}
+
+p {
+    font-size: 1.2em;
+    color: #888;
+    margin: 5px 0;
+    animation: fadeInUp 2s ease-in-out;
+}
+
+/* Button Styles */
+.btn {
+    background-color: #6c63ff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s, background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #5752d1;
+    transform: scale(1.1); /* Pop effect */
+}
+
+/* Login Form */
+#login-form {
+    display: none;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(-200px);
+    z-index: 20;
+    text-align: center;
+    width: 300px;
+    animation: slideIn 0.6s forwards;
+}
+
+#login-form h2 {
+    margin-bottom: 15px;
+    color: #111;
+}
+
+#login-form label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+#login-form input[type="text"],
+#login-form input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#login-form input[type="submit"] {
+    background-color: #6c63ff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#login-form input[type="submit"]:hover {
+    background-color: #5752d1;
+}
+
+#login-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 15;
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Footer */
+footer {
+    bottom: 0;
+    position: fixed;
+    border: 2px solid black;
+    background-color: black;
+    width: 100vw;
+    animation: fadeInUp 1s ease-in-out;
+}
+
+footer a {
+    text-decoration: none;
+    color: white;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-200px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+</style>
+</head>
+<body>
+
+    <!-- Header with navigation -->
+    <header>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="game.html">Game</a>
+            <a href="contact.html">Contact</a>
+            <a href="presc/presc.html">Prescription Entry</a>
+            <a href="bot.html">ChatBot</a>
+        </nav>
+     
+    </header>
+
+    <!-- Main content -->
+    <main>
+        <h1>Health Quest</h1>
+        <p>Redefine Living</p>
+        <a href="about.html" class="btn">Learn More</a>
+    </main>
+    <footer>
+        <p style="color: white;">&copy;2024 Health Quest. All rights reserved.</p>
+        <a href="home.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+    </footer>
+</body>
+</html>

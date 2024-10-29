@@ -1,0 +1,170 @@
+/* Base styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "VT323", monospace;
+    color: rgb(187, 218, 246);
+}
+
+.hello {
+    padding-left: 10px;
+    margin: 15px;
+    font-size: 1.5em;
+}
+
+h1 {
+    font-size: 3em;
+}
+
+header {
+    height: 100vh;
+    align-items: center;
+    animation: fadeIn 2s ease-in-out;
+}
+
+body {
+    background-image: url("https://preview.redd.it/just-created-a-background-for-my-game-im-a-beginner-v0-lv8kgjusouta1.png?auto=webp&s=40eb89899432f64497dca4146d320eff846ed0f2");
+    background-position: center;
+    background-size: cover;
+    width: 100vw;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 70% 30%;
+}
+
+.hero {
+    justify-self: center;
+    flex: 1; 
+    padding: 20px;
+    animation: slideIn 1.5s ease-out;
+}
+
+.hero div {
+    margin-top: auto;
+    border: 2px solid white;
+    padding: 40px;
+    font-size: 1.1em;
+    line-height: 1.6;
+    background-color: rgba(46, 46, 46, 0.455);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 700px;
+    box-shadow: 0 4px 20px rgba(221, 221, 221, 0.423);
+    transition: transform 0.2s ease-in-out;
+}
+.hero div:hover {
+    transform: scale(1.05);
+}
+
+.loginfloat {
+    margin: 30px;
+    padding: 40px;
+    border: 2px white solid;
+    border-radius: 25px;
+    background-color: rgba(240, 248, 255, 0.638);
+    animation: slideIn 2s ease-out;
+}
+
+.cred {
+    margin-bottom: 10px;
+    justify-self: center;
+}
+
+button {
+    display: grid;
+    padding: 5px;
+    margin-bottom: 10px;
+    border-radius: 25px;
+    justify-self: center;
+    background-color: rgba(63, 63, 65, 0.623);
+    transition: transform 0.2s;
+}
+button:hover {
+    background-color: rgb(187, 218, 246);
+    color: rgba(63, 63, 65, 0.623);
+    transform: translateY(-5px);
+}
+
+.logo {
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    animation: spin 1s ease-in-out 1;
+}
+
+footer {
+    bottom: 0;
+    position: fixed;
+    border: 2px solid black;
+    background-color: black;
+    width: 100vw;
+}
+
+footer a {
+    text-decoration: none;
+    color: white;
+}
+
+/* Keyframe Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        text-align: center;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .hello {
+        font-size: 1em;
+    }
+
+    .hero {
+        display: none;
+    }
+
+    .hero div {
+        display: none;
+    }
+
+    .logo {
+        width: 120px;
+        height: 120px;
+    }
+}

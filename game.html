@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+       /* Basic styling */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        header { background-color: #000000; color: white; text-align: center; padding: 10px; font-family: "VT323", monospace; font-size: 2rem; }
+        body { background-image: url("https://wallpapers.com/images/hd/pixel-game-1920-x-1080-background-tcn66ytauqs400kc.jpg"); font-family: "VT323", monospace; background-size: cover; }
+        h1, h5{ font-size: 3rem; text-align: center; }
+        .menu { display: grid; gap: 5px; grid-template-columns: repeat(4, 1fr); color: #000; text-decoration: none;}
+        .menuitem { border: 2px solid #00000000; border-radius: 20px; width: 270px; font-size: xx-large; background-color: #fefefe8e; padding: 20px 15px; margin-bottom: 20px; text-align: center; justify-self: center; transition: all 0.5s ease; }
+        .menuitem img { width: 150px; height: 150px; object-fit: cover; margin: 25px; margin-bottom: 10px; border-radius: 50%; }
+        @media (max-width: 768px) { .menu { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .menu { grid-template-columns: 1fr; } }
+        h5 { animation: slideIn 1s ease-out; }
+        .menuitem:hover { transform: translateY(-20px); }
+        @keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } } 
+        a{ text-decoration: none; color: black}
+        #bonusContainer { margin: 20px; font-size: x-large; color: white;}
+        footer {
+            bottom: 0;
+            position: fixed;
+            border: 2px solid black;
+            background-color: black;
+            width: 100vw;
+            text-decoration: none;
+        }
+        footer a{
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Health Quest</h1>
+    </header>
+    <main class="menuhead">
+        <h5>Games (Earn 2 ❤️ per med!)</h5>
+        <div id="bonusContainer">❤️ Bonus Hearts: <span id="bonusCount">0</span></div>
+        <ul type="none" class="menu">
+            <li class="menuitem"><a href="#" onclick="playGame('flappy.html')"><img src="image/flappy.jpg" alt="">Flappy Bird</a></li>
+            <li class="menuitem"><a href="#" onclick="playGame('snake.html')"><img src="image/snake1.jpg" alt="snake.jpg">Snake Trivia</a></li>
+            <li class="menuitem"><a href="#" onclick="playGame('ttt.html')"><img src="image/ttt.jpeg">Tic Tac Toe</a></li>
+            <li class="menuitem"><a href="#" onclick="playGame('sudoku.html')"><img src="image/sudoku.png" alt="">Sudoku</a></li>
+            <li class="menuitem"><a href="#" onclick="playGame('dino.html')"><img src="image/dino.jpg" alt="">Dino Game</a></li>
+            <li class="menuitem"><a href="#" onclick="playGame('pingpong.html')"><img src="image/pingpong.jpg" alt="">PingPong Game</a></li>
+            <li class="menuitem"><a href="#" onclick="playGame('memory.html')"><img src="image/memory.jpg" alt="">Memory Game</a></li>
+            <li class="menuitem"><a href="#" onclick="playGame('mole.html')"><img src="image/mole1.jpg" alt="">Wack a Mole</a></li>
+        </ul>
+    </main>
+    <footer>
+        <p style="color: white;">&copy;2024 Health Quest. All rights reserved.</p>
+        <a href="home.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+    </footer>
+    <script>
+        let bonusCount = 0;
+
+        function updateBonusCount() {
+            const bonusCountElement = document.getElementById('bonusCount');
+            bonusCountElement.textContent = bonusCount;
+        }
+
+        function playGame(gameUrl) {
+            if (bonusCount > 0) {  // Check if there are bonus hearts available
+                bonusCount--;  // Decrease bonus count by 1
+                updateBonusCount();  // Update the displayed count
+                window.location.href = gameUrl;  // Redirect to the game
+            } else {
+                alert("You don't have enough hearts to play a game!"); // Alert if no hearts available
+            }
+        }
+
+        // Load bonus count from local storage on page load
+        window.addEventListener('load', function() {
+            bonusCount = parseInt(localStorage.getItem('bonusCount')) || 0;
+            updateBonusCount();
+        });
+
+        // Save bonus count to local storage on page unload
+        window.addEventListener('beforeunload', function() {
+            localStorage.setItem('bonusCount', bonusCount);
+        });
+    </script>
+</body>
+</html>

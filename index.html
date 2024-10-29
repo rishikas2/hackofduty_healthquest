@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <link rel="icon" href="icon2.png">
+    <link rel="stylesheet" href="indexstyle.css">
+    <title>Health Quest</title>
+</head>
+<body>
+    <div class="hello">
+        <h1>Health Quest</h1>
+        <p>Welcome to HEALTH QUEST - Empowering Your Journey to Wellness!</p>
+    </div>
+    <div class="container">
+        <header class="hero">
+            <div>
+                <h2>About Health Quest</h2>
+                    <p>Health Quest is an innovative platform designed to empower individuals on their journey to wellness. Our mission is to promote healthy habits and support medical adherence through engaging and interactive experiences. Whether you're looking to manage your medications, track your health goals, or find resources for better living, Health Quest offers a variety of tools and games that make health management fun and effective.</p>
+                    <p>Join a community of like-minded individuals committed to improving their well-being, and take charge of your health today! With features such as personalized reminders, progress tracking, and educational content, Health Quest helps you stay motivated and informed every step of the way.</p>
+            </div>
+        </header>
+        <nav class="login">
+            <div class="loginfloat">
+                <form action="#" id="login-form" data-mode="login">
+                    <div class="cred"><img class="logo" src="./image/icon2.png" alt="logo"></div>
+                    <div class="cred">
+                        <input 
+                            type="text" 
+                            id="username" 
+                            name="username" 
+                            placeholder="Your Mobile/Email" 
+                            required 
+                            pattern="(\\+?\\d{1,4}[-.\\s]?)?(\\(?\\d{3}\\)?[-.\\s]?)?\\d{3}[-.\\s]?\\d{4}|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$" 
+                            title="Please enter a valid email or phone number">
+                    </div>
+                    <div class="cred">
+                        <input type="password" placeholder="Enter password" required>
+                    </div>
+                    <div class="buttons">
+                        <button type="submit">Login</button>
+                        <button type="button" id="signup-button" onclick="toggleSignUp()">Don't have an account? Sign Up</button>
+                    </div>
+                </form>
+            </div>
+        </nav>
+    </div>
+    <footer>
+        <p style="color: white;">&copy;2024 Health Quest. All rights reserved.</p>
+        <a href="home.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+    </footer>
+    <script>
+        // Handle the login form submission
+        document.getElementById("login-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form from submitting in the traditional way
+
+            // Simulate successful login (for real implementation, validate with server)
+            let username = document.getElementById("username").value;
+            let password = document.querySelector("input[type='password']").value;
+
+            // Simple validation (in a real scenario, send these to the server)
+            if (username && password) {
+                alert("Login successful!");
+                // Redirect to the home page
+                window.location.href = "home.html"; // Change to your actual home page URL
+            } else {
+                alert("Please enter valid credentials.");
+            }
+        });
+        function toggleLogin() {
+    const form = document.getElementById('login-form');
+    form.dataset.mode = 'login';
+    form.innerHTML = `
+        <div class="cred"><img class="logo" src="/image/icon2.png" alt="logo"></div>
+        <div class="cred">
+            <input 
+                type="text" 
+                id="username" 
+                name="username" 
+                placeholder="Your Mobile/Email" 
+                required 
+                pattern="(\\+?\\d{1,4}[-.\\s]?)?(\\(?\\d{3}\\)?[-.\\s]?)?\\d{3}[-.\\s]?\\d{4}|^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$" 
+                title="Please enter a valid email or phone number">
+        </div>
+        <div class="cred">
+            <input type="password" placeholder="Enter password" required>
+        </div>
+        <div class="buttons">
+            <button type="submit">Login</button>
+            <button type="button" id="signup-button" onclick="toggleSignUp()">Don't have an account? Sign Up</button>
+        </div>
+    `;
+}
+        // Toggle between login and sign up
+        function toggleSignUp() {
+            const form = document.getElementById('login-form');
+    const buttonsContainer = document.querySelector('.buttons');
+
+    // Check if the form is currently for login
+    if (form.dataset.mode === 'login') {
+        // Change to sign up mode
+        form.dataset.mode = 'signup';
+        form.innerHTML = `
+        <div class="cred"><img class="logo" src="/image/icon2.png" alt="logo"></div>
+            <div class="cred">
+                <input type="text" id="name" name="name" placeholder="Your Name" required>
+            </div>
+            <div class="cred">
+                <input type="text" id="mobile" name="mobile" placeholder="Your Mobile" required>
+            </div>
+            <div class="cred">
+                <input type="number" id="age" name="age" placeholder="Your Age" required>
+            </div>
+            <div class="cred">
+                <input type="password" placeholder="Enter password" required>
+            </div>
+            <div class="buttons">
+                <button type="submit">Sign Up</button>
+                <button type="button" id="login-button" onclick="toggleLogin()">Already have an account? Login</button>
+            </div>
+        `;
+    }
+}
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <title>Contact Us - Health Quest</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            background-image: url("https://wallpapers.com/images/hd/pixel-game-1920-x-1080-background-376tmkaby01gblvf.jpg");
+            background-position: center;
+            height: 100vh;
+            width: 100vw;
+            background-size: cover;
+            background-position: center;
+        }
+
+        body {
+            background-repeat: no-repeat;
+            font-family: "VT323", monospace;
+            font-weight: 300;
+            color: #fff; 
+        }
+
+        header {
+            font-size: x-large;
+            background-color: rgba(0, 0, 0, 0.348);
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        h1 {
+            font-family: "VT323", monospace;
+            font-size: larger;
+            color: #fee7c5;
+        }
+
+        h2 {
+            font-variant: small-caps;
+            color: rgb(254 231 197);
+            text-align: center;
+            margin: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        .container {
+            padding: 20px;
+            max-width: 500px;
+            margin: 0 auto;
+            font-size: large;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            margin-bottom: 50px;
+        }
+
+        form {
+            display: grid;
+            gap: 10px;
+        }
+
+        input, textarea {
+            padding: 10px;
+            border-style: ridge;
+            border-radius: 5px;
+            font-size: bold;
+            background-color: rgba(255, 255, 255, 0.8);
+            color: #333;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #fee7c5;
+            color: #333;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
+            margin-bottom: 10px;
+        }
+
+        button:hover {
+            background-color: #c4b59d;
+        }
+
+        .footer {
+            border-top: 2px solid white;
+            color: aliceblue;
+            background-color: rgba(0, 0, 0, 0.999);
+            margin-bottom: 0;
+            text-align: center;
+
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Health Quest</h1>
+    </header>
+    <main>
+        <div class="container">
+            <h2>Contact Us</h2>
+            <p>If you have any questions or feedback, please feel free to reach out to us using the form below:</p>
+            <form action="mailto:rishikasarkar02@gmail.com" method="post" enctype="text/plain">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+            <h3>Reach us at:</h3>
+            <p>Email: contact@healthquest.com</p>
+            <p>Phone: +123 456 7890</p>
+            <p>Address: 123 Wellness St, Health City, HC 12345</p>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>&copy;2024 Health Quest. All rights reserved.</p>
+    </footer>
+</body>
+</html>

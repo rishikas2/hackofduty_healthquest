@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong</title>
+    <style>
+        body {
+            text-align: center;
+        }
+
+        #board {
+            background-color: black;
+            border-top: 5px solid skyblue;
+            border-bottom: 5px solid skyblue;
+        }
+    </style>
+</head>
+<body>
+    <h2>Ping Pong</h2>
+    <h3>First to reach 15 points wins the game!</h3>
+    <canvas id="board"></canvas>
+    <script>
+        // Canvas setup
+        let board;
+        let boardWidth = 500;
+        let boardHeight = 500;
+        let context; 
+        
+        // Player setup
+        let playerWidth = 10;
+        let playerHeight = 50;
+        let player1 = {
+            x: 10,
+            y: boardHeight / 2,
+            width: playerWidth,
+            height: playerHeight,
+        };
+        
+        let player2 = {
+            x: boardWidth - playerWidth - 10,
+            y: boardHeight / 2,
+            width: playerWidth,
+            height: playerHeight,
+            velocityY: 0
+        };
+        
+        // Ball setup
+        let ballWidth = 10;
+        let ballHeight = 10;
+        let ball = {
+            x: boardWidth / 2,
+            y: boardHeight / 2,
+            width: ballWidth,
+            height: ballHeight,
+            velocityX: 2, // Reduced initial velocity
+            velocityY: 2  // Reduced initial velocity
+        };
+        
+        // Score
+        let player1Score = 0;
+        let player2Score = 0;
+        const winningScore = 15; // Set the winning score
+        
+        // Key state tracking
+        let upPressed = false;
+        let downPressed = false;
+        
+        window.onload = function() {
+            board = document.getElementById("board");
+            board.height = boardHeight;
+            board.width = boardWidth;
+            context = board.getContext("2d"); // used for drawing on the board
+        
+            requestAnimationFrame(update);
+            document.addEventListener("keydown", keyDownHandler);
+            document.addEventListener("keyup", keyUpHandler);
+        }
+        
+        function update() {
+            requestAnimationFrame(update);
+            context.clearRect(0, 0, board.width, board.height);
+        
+            // Player 1 (User)
+            context.fillStyle = "skyblue";
+            context.fillRect(player1.x, player1.y, playerWidth, playerHeight);
+        
+            // Player 2 (Bot)
+            // Simple bot logic to follow the ball
+            if (ball.y < player2.y) {
+                player2.velocityY = -3; // Move up
+            } else if (ball.y > player2.y + playerHeight) {
+                player2.velocityY = 3; // Move down
+            } else {
+                player2.velocityY = 0; // Stop
+            }
+            let nextPlayer2Y = player2.y + player2.velocityY;
+            if (!outOfBounds(nextPlayer2Y)) {
+                player2.y = nextPlayer2Y;
+            }
+            context.fillRect(player2.x, player2.y, playerWidth, playerHeight);
+        
+            // Ball
+            context.fillStyle = "white";
+            ball.x += ball.velocityX;
+            ball.y += ball.velocityY;
+            context.fillRect(ball.x, ball.y, ballWidth, ballHeight);
+        
+            if (ball.y <= 0 || (ball.y + ballHeight >= boardHeight)) { 
+                ball.velocityY *= -1; // reverse direction if ball hits top/bottom
+            }
+        
+            // Bounce the ball back
+            if (detectCollision(ball, player1)) {
+                if (ball.x <= player1.x + player1.width) {
+                    ball.velocityX *= -1;
+                }
+            } else if (detectCollision(ball, player2)) {
+                if (ball.x + ballWidth >= player2.x) {
+                    ball.velocityX *= -1;
+                }
+            }
+        
+            // Game over and score update
+            if (ball.x < 0) {
+                player2Score++;
+                resetGame(1);
+            } else if (ball.x + ballWidth > boardWidth) {
+                player1Score++;
+                resetGame(-1);
+            }
+        
+            // Check for win condition
+            if (player1Score >= winningScore || player2Score >= winningScore) {
+                displayWinner();
+                return; // Stop the update loop
+            }
+        
+            // Score display
+            context.font = "45px sans-serif";
+            context.fillText(player1Score, boardWidth / 5, 45);
+            context.fillText(player2Score, (boardWidth * 4 / 5) - 45, 45);
+        
+            // Draw dotted line down the middle
+            for (let i = 10; i < board.height; i += 25) {
+                context.fillRect(board.width / 2 - 10, i, 5, 5);
+            }
+        
+            // Smooth movement for Player 1
+            if (upPressed && !outOfBounds(player1.y - 5)) {
+                player1.y -= 5; // Move up
+            }
+            if (downPressed && !outOfBounds(player1.y + 5)) {
+                player1.y += 5; // Move down
+            }
+        }
+        
+        function outOfBounds(yPosition) {
+            return (yPosition < 0 || yPosition + playerHeight > boardHeight);
+        }
+        
+        function keyDownHandler(e) {
+            if (e.code === "ArrowUp") {
+                upPressed = true; // Set upPressed to true
+            } else if (e.code === "ArrowDown") {
+                downPressed = true; // Set downPressed to true
+            }
+        }
+        
+        function keyUpHandler(e) {
+            if (e.code === "ArrowUp") {
+                upPressed = false; // Reset upPressed to false
+            } else if (e.code === "ArrowDown") {
+                downPressed = false; // Reset downPressed to false
+            }
+        }
+        
+        function detectCollision(a, b) {
+            return a.x < b.x + b.width &&
+                   a.x + a.width > b.x &&
+                   a.y < b.y + b.height &&
+                   a.y + a.height > b.y;
+        }
+        
+        function resetGame(direction) {
+            ball = {
+                x: boardWidth / 2,
+                y: boardHeight / 2,
+                width: ballWidth,
+                height: ballHeight,
+                velocityX: direction * 2, // Reduced velocity for slower respawn
+                velocityY: 2 // Reduced velocity for slower respawn
+            };
+        }
+        
+        function displayWinner() {
+            context.clearRect(0, 0, board.width, board.height);
+            context.fillStyle = "white";
+            context.font = "40px sans-serif";
+            const winner = player1Score >= winningScore ? "Player 1 Wins!" : "Player 2 Wins!";
+            context.fillText(winner, boardWidth / 2 - context.measureText(winner).width / 2, boardHeight / 2);
+            context.font = "20px sans-serif";
+            context.fillText("Press Space to Restart", boardWidth / 2 - context.measureText("Press Space to Restart").width / 2, boardHeight / 2 + 30);
+        
+            // Listen for Space key to restart the game
+            document.addEventListener("keyup", restartGame);
+        }
+        
+        function restartGame(e) {
+            if (e.code === "Space") {
+                player1Score = 0;
+                player2Score = 0;
+                resetGame(1); // Reset the ball direction
+                requestAnimationFrame(update); // Restart the game loop
+                document.removeEventListener("keyup", restartGame); // Remove listener after restarting
+            }
+        }
+        </script>
+        
+</body>
+</html>

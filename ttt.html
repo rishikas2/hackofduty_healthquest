@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        hr {
+            width: 500px;
+            height: 2px;
+            background-color: black;
+        }
+
+        #board {
+            width: 450px;
+            height: 450px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .tile {
+            width: 147px;
+            height: 147px;
+            font-size: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .winner {
+            background-color: lightgray;
+            color: red;
+        }
+
+        .horizontal-line {
+            border-bottom: 3px solid black;
+        }
+
+        .vertical-line {
+            border-right: 3px solid black;
+        }
+
+        #messageBoard {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <hr>
+    <div id="board"></div>
+    <h2 id="matchMessage"></h2>
+    <div id="messageBoard">
+        <p>Player Wins: <span id="playerWins">0</span></p>
+        <p>Bot Wins: <span id="botWins">0</span></p>
+        <p>Draws: <span id="draws">0</span></p>
+    </div>
+
+    <script>
+        var board, gameOver;
+        var playerO = "O"; // Bot
+        var playerX = "X"; // Human
+        var currPlayer = playerX; // Start with human player
+        var humanWins = 0;
+        var botWins = 0;
+        var draws = 0;
+        var matchCount = 0;
+
+        window.onload = function() {
+            setGame();
+        }
+        
+        function setGame() {
+            gameOver = false;
+            board = [
+                [' ', ' ', ' '],
+                [' ', ' ', ' '],
+                [' ', ' ', ' ']
+            ];
+        
+            document.getElementById("board").innerHTML = "";
+            document.getElementById("matchMessage").innerText = "";
+
+            for (let r = 0; r < 3; r++) {
+                for (let c = 0; c < 3; c++) {
+                    let tile = document.createElement("div");
+                    tile.id = r + "-" + c;
+                    tile.classList.add("tile");
+                    if (r == 0 || r == 1) {
+                        tile.classList.add("horizontal-line");
+                    }
+                    if (c == 0 || c == 1) {
+                        tile.classList.add("vertical-line");
+                    }
+                    tile.addEventListener("click", setTile);
+                    document.getElementById("board").appendChild(tile);
+                }
+            }
+        }
+        
+        function setTile() {
+            if (gameOver || currPlayer === playerO) return;
+
+            let coords = this.id.split("-");
+            let r = parseInt(coords[0]);
+            let c = parseInt(coords[1]);
+
+            if (board[r][c] !== ' ') return;
+            
+            board[r][c] = currPlayer;
+            this.innerText = currPlayer;
+            currPlayer = playerO;
+            checkWinner();
+
+            if (!gameOver) {
+                setTimeout(botMove, Math.random() * 1000 + 1000);
+            }
+        }
+        
+        function botMove() {
+            let bestMove = getBestMove();
+            board[bestMove.r][bestMove.c] = playerO;
+            let tile = document.getElementById(bestMove.r + "-" + bestMove.c);
+            tile.innerText = playerO;
+            checkWinner();
+            currPlayer = playerX;
+        }
+
+        function getBestMove() {
+            // Bot tries to win, block, or take center/corners for higher difficulty
+
+            // Check for winning move
+            for (let r = 0; r < 3; r++) {
+                for (let c = 0; c < 3; c++) {
+                    if (board[r][c] === ' ') {
+                        board[r][c] = playerO;
+                        if (checkWinCondition()) return { r, c };
+                        board[r][c] = ' ';
+                    }
+                }
+            }
+
+            // Check for blocking move
+            for (let r = 0; r < 3; r++) {
+                for (let c = 0; c < 3; c++) {
+                    if (board[r][c] === ' ') {
+                        board[r][c] = playerX;
+                        if (checkWinCondition()) {
+                            board[r][c] = playerO;
+                            return { r, c };
+                        }
+                        board[r][c] = ' ';
+                    }
+                }
+            }
+
+            // Take center if available
+            if (board[1][1] === ' ') return { r: 1, c: 1 };
+
+            // Take an empty corner
+            const corners = [{ r: 0, c: 0 }, { r: 0, c: 2 }, { r: 2, c: 0 }, { r: 2, c: 2 }];
+            for (const corner of corners) {
+                if (board[corner.r][corner.c] === ' ') return corner;
+            }
+
+            // Otherwise, take any empty tile
+            for (let r = 0; r < 3; r++) {
+                for (let c = 0; c < 3; c++) {
+                    if (board[r][c] === ' ') return { r, c };
+                }
+            }
+        }
+
+        function checkWinner() {
+            if (checkWinCondition()) {
+                gameOver = true;
+                if (currPlayer === playerX) {
+                    humanWins++;
+                    document.getElementById("matchMessage").innerText = "Player wins this match!";
+                } else {
+                    botWins++;
+                    document.getElementById("matchMessage").innerText = "Bot wins this match!";
+                }
+                updateScoreBoard();
+                matchCount++;
+                setTimeout(() => nextMatchOrResult(), 2000);
+                return;
+            }
+
+            if (board.flat().every(tile => tile !== ' ')) {
+                draws++;
+                gameOver = true;
+                document.getElementById("matchMessage").innerText = "It's a draw!";
+                updateScoreBoard();
+                matchCount++;
+                setTimeout(() => nextMatchOrResult(), 2000);
+            }
+        }
+
+        function checkWinCondition() {
+            for (let r = 0; r < 3; r++) {
+                if (board[r][0] === board[r][1] && board[r][1] === board[r][2] && board[r][0] !== ' ') return true;
+            }
+            for (let c = 0; c < 3; c++) {
+                if (board[0][c] === board[1][c] && board[1][c] === board[2][c] && board[0][c] !== ' ') return true;
+            }
+            if (board[0][0] === board[1][1] && board[1][1] === board[2][2] && board[0][0] !== ' ') return true;
+            if (board[0][2] === board[1][1] && board[1][1] === board[2][0] && board[0][2] !== ' ') return true;
+            return false;
+        }
+
+        function updateScoreBoard() {
+            document.getElementById("playerWins").innerText = humanWins;
+            document.getElementById("botWins").innerText = botWins;
+            document.getElementById("draws").innerText = draws;
+        }
+
+        function nextMatchOrResult() {
+            if (matchCount >= 3) {
+                let finalMessage;
+                if (humanWins > botWins) finalMessage = "Congratulations! You won the series!";
+                else if (botWins > humanWins) finalMessage = "The Bot won the series!";
+                else finalMessage = "The series is a draw!";
+                
+                document.getElementById("matchMessage").innerText = finalMessage;
+            } else {
+                setGame();
+                currPlayer = playerX;
+            }
+        }
+    </script>
+</body>
+</html>
